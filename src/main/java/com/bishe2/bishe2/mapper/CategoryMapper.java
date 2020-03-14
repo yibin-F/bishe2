@@ -9,8 +9,6 @@ import java.util.Locale;
 
 @Mapper
 public interface CategoryMapper {
-
-    @Select("select * from category_ ")
     List<Category> findAll();
 
 }
