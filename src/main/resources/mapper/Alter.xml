@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.bishe2.bishe2.mapper.AlterMapper">
+    <!--<update id="find_stu" parameterType="com.bishe2.bishe2.pojo.Student">-->
+            <!--select * from student where user_id =#{username} and user_password=#{password}-->
+    <!--</update>-->
+    <update id="alter_password1" parameterType="java.util.Map">
+        update student set user_password = #{password} where u_id = #{uid}
+    </update>
+</mapper>
