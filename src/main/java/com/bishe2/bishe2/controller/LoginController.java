@@ -29,13 +29,9 @@ public class LoginController {
     public Student sudentLogin(HttpServletRequest request){
         String username = request.getParameter("username");
         String password = request.getParameter("password");
-        System.out.println(username);
-        System.out.println(password);
         Student student = loginService.stu_login(username,password);
         if (student!=null)
         System.out.println(student.toString());
-
-
 //        Map<String,Object> addmap = new HashMap<>();
 //        addmap.put("id","555");
 //        addmap.put("password","555");
@@ -48,6 +44,7 @@ public class LoginController {
         String username = request.getParameter("username");
         String password = request.getParameter("password");
         Teacher teacher = loginService.tea_login(username,password);
+        System.out.println(teacher.toString());
         return teacher;
     }
     @ResponseBody

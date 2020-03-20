@@ -21,4 +21,35 @@ public class AlterController {
         int uid = Integer.parseInt(request.getParameter("uid"));
         alterService.alter_password1(password,uid);
     }
+    @ResponseBody
+    @RequestMapping("/alter_password2")
+    public void alter_password2(HttpServletRequest request){
+        String password = request.getParameter("password");
+        int uid = Integer.parseInt(request.getParameter("uid"));
+        alterService.alter_password2(password,uid);
+    }
+
+    @ResponseBody
+    @RequestMapping("/alter_password3")
+    public void alter_password3(HttpServletRequest request){
+        String password = request.getParameter("password");
+        int uid = Integer.parseInt(request.getParameter("uid"));
+        System.out.println("3");
+        alterService.alter_password3(password,uid);
+    }
+    @ResponseBody
+    @RequestMapping("/alter_password4")
+    public void alter_password4(HttpServletRequest request){
+        String password = request.getParameter("password");
+        int uid = Integer.parseInt(request.getParameter("uid"));
+        alterService.alter_password4(password,uid);
+    }
+
+    @ResponseBody
+    @RequestMapping("/alter_introduct")
+    public void alter_introduct(HttpServletRequest request){
+        String text = request.getParameter("text");
+        int uid = Integer.parseInt(request.getParameter("uid"));
+        alterService.alter_introduct(text,uid);
+    }
 }

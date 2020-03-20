@@ -1,10 +1,7 @@
 package com.bishe2.bishe2.service;
 
 import com.bishe2.bishe2.mapper.LoginMapper;
-import com.bishe2.bishe2.pojo.Company;
-import com.bishe2.bishe2.pojo.Parent;
-import com.bishe2.bishe2.pojo.Student;
-import com.bishe2.bishe2.pojo.Teacher;
+import com.bishe2.bishe2.pojo.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -38,6 +35,9 @@ public class LoginService {
         map1.put("username",username);
         map1.put("password",password);
         Student student = loginMapper.find_stu(map1);
+        //获取到专业，访问数据库查找专业名
+        student.setMajor_name(loginMapper.find_major(student).getMajor_name());
+        System.out.println(student.getMajor_name());
         return student;
     }
     public Teacher tea_login(String username, String password) {

@@ -10,10 +10,19 @@ public class Student {
     private int grade_id;
     private int major_id;
     private int class_id;
+    private String major_name;
     private String user_phone;
     private String introduct;
     private String user_email;
     private String adress;
+
+    public String getMajor_name() {
+        return major_name;
+    }
+
+    public void setMajor_name(String major_name) {
+        this.major_name = major_name;
+    }
 
     public String getAdress() {
         return adress;

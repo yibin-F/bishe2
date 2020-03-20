@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.bishe2.bishe2.mapper.FindUserMapper">
+    <select id="findStudentList" parameterType="java.util.Map" resultType="com.bishe2.bishe2.pojo.Student">
+            select * from student where major_id =#{major_id} and class_id = #{class_id} and  grade_id=#{grade_id}
+    </select>
+
+    <select id="findTeacherList" resultType="com.bishe2.bishe2.pojo.Teacher">
+            select * from teacher
+    </select>
+    <select id="findCompanyList" resultType="com.bishe2.bishe2.pojo.Company">
+            select * from company
+    </select>
+    <!--查找学生成绩-->
+    <select id="findCjList" parameterType="java.lang.Integer" resultType="com.bishe2.bishe2.pojo.Chengji">
+            select * from course_select where u_id = #{uid}
+    </select>
+    <!--查找课程名-->
+    <select id="findCourse" parameterType="java.lang.Integer" resultType="java.lang.String">
+        select course_name from course where course_id=#{course_id}
+    </select>
+
+    <select id="find_usermajor" parameterType="java.lang.Integer" resultType="java.lang.String">
+        select major_name from major where major_id=#{major_id}
+    </select>
+</mapper>

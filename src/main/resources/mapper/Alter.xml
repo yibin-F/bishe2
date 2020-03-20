@@ -10,4 +10,16 @@
     <update id="alter_password1" parameterType="java.util.Map">
         update student set user_password = #{password} where u_id = #{uid}
     </update>
+    <update id="alter_password2" parameterType="java.util.Map">
+        update teacher set user_password = #{password} where u_id = #{uid}
+    </update>
+    <update id="alter_password3" parameterType="java.util.Map">
+        update parent set user_password = #{password} where u_id = #{uid}
+    </update>
+    <update id="alter_password4" parameterType="java.util.Map">
+        update company set user_password = #{password} where u_id = #{uid}
+    </update>
+    <update id="alter_introduct" parameterType="java.util.Map">
+        update student set introduct = #{text} where u_id = #{uid}
+    </update>
 </mapper>

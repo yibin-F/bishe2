@@ -16,6 +16,11 @@
     <select id="find_com" parameterType="java.util.Map" resultType="com.bishe2.bishe2.pojo.Company">
             select * from company where user_id =#{username} and user_password=#{password}
     </select>
+
+
+    <select id="find_major" parameterType="com.bishe2.bishe2.pojo.Student" resultType="com.bishe2.bishe2.pojo.Student">
+            select * from major where major_id =#{major_id}
+    </select>
     <insert id="add" parameterType="java.util.Map">
         insert into userinfo (user_id,user_password)
         values (#{id},#{password})
