@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.bishe2.bishe2.mapper.ShenheMapper">
+    <!--<update id="find_stu" parameterType="com.bishe2.bishe2.pojo.Student">-->
+    <!--select * from student where user_id =#{username} and user_password=#{password}-->
+    <!--</update>-->
+    <!--上传证书-->
+    <insert id="add" parameterType="java.util.Map">
+        insert into shenhe set student_id = #{uid} , shenhe_title = #{title} , shengqing_time = #{shengqing_time}
+    </insert>
+    <!--教师审核列表-->
+    <select id="find_shenheing" resultType="com.bishe2.bishe2.pojo.Shenhe">
+        select * from shenhe where shenhe_index=0
+    </select>
+    <select id="find_shenhed" resultType="com.bishe2.bishe2.pojo.Shenhe">
+        select * from shenhe where shenhe_index!=0
+    </select>
+    <select id="find_student" parameterType="java.lang.Integer" resultType="java.lang.String">
+        select user_name from student where u_id=#{student_id}
+    </select>
+    <update id="alter" parameterType="java.util.Map">
+        update shenhe set reply = #{reply},shenhe_index=#{shenhe_index} ,shenhe_time=#{shenhe_time} where shenhe_id = #{shenhe_id}
+    </update>
+    <!--学生查询自己的证书-->
+    <select id="find_stu_shenheing" parameterType="java.lang.Integer" resultType="com.bishe2.bishe2.pojo.Shenhe">
+        select * from shenhe where shenhe_index=0 and student_id=#{uid}
+    </select>
+    <select id="find_stu_shenhed" parameterType="java.lang.Integer" resultType="com.bishe2.bishe2.pojo.Shenhe">
+        select * from shenhe where shenhe_index!=0 and student_id=#{uid}
+    </select>
+<!--查看用户的证书-->
+    <select id="findZs" parameterType="java.lang.Integer" resultType="com.bishe2.bishe2.pojo.Shenhe">
+        select * from shenhe where shenhe_index=1 and student_id=#{uid}
+    </select>
+    <!--查看证书id-->
+    <select id="find_shenhe_id" parameterType="java.util.Map" resultType="com.bishe2.bishe2.pojo.Shenhe">
+        select * from shenhe where student_id=#{uid} and shenhe_title=#{title}
+    </select>
+</mapper>

@@ -17,6 +17,11 @@ public interface FindUserMapper {
 
     List<Chengji> findCjList(int uid);
     String findCourse(int course_id);
-
     String find_usermajor(int major_id);
+
+    String find_stuname(int uid);
+    String find_teaname(int uid);
+    String find_parname(int uid);
+    String find_comname(int uid);
+
 }

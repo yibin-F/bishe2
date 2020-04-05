@@ -5,6 +5,7 @@ import com.bishe2.bishe2.pojo.Company;
 import com.bishe2.bishe2.pojo.Student;
 import com.bishe2.bishe2.pojo.Teacher;
 import com.bishe2.bishe2.service.FindUserService;
+import com.fasterxml.jackson.databind.ser.Serializers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -12,10 +13,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.InputStream;
+import java.util.*;
 
 @Controller
 public class FindUserController {
@@ -53,5 +54,50 @@ public class FindUserController {
         List<Chengji> chengjiList = findUserService.findCjList(uid);
         System.out.println(chengjiList.toString());
         return chengjiList;
+
     }
+    //查找文章的图像
+    @ResponseBody
+    @RequestMapping("/find_articleimg")
+    public String find_articleimg(HttpServletRequest request) {
+        int article_id = Integer.parseInt(request.getParameter("article_id"));
+        File imgurl = new File(request.getServletContext().getRealPath("/imgurl" + "/articleimg") + "/" + article_id + ".jpg");
+        if (imgurl.exists()) {
+            try {
+                FileInputStream inputStream = new FileInputStream(imgurl);
+                byte[] data = new byte[(int)imgurl.length()];
+                inputStream.read(data);
+                return new String(Base64.getEncoder().encode(data));//把文件转换为64编码格式
+            }
+            catch (Exception e){
+                return "0";
+            }
+        } else {
+            return "0";
+        }
+    }
+
+    //查找用户的个人头像
+    @ResponseBody
+    @RequestMapping("/find_userimg")
+    public String find_userimg(HttpServletRequest request) {
+        int uid = Integer.parseInt(request.getParameter("uid"));
+        int user_type = Integer.parseInt(request.getParameter("user_type"));
+
+        File imgurl = new File(request.getServletContext().getRealPath("/imgurl" + "/headimg") + "/" + user_type + "_" + uid + ".jpg");
+        if (imgurl.exists()) {
+            try {
+                FileInputStream inputStream = new FileInputStream(imgurl);
+                byte[] data = new byte[(int)imgurl.length()];
+                inputStream.read(data);
+                return new String(Base64.getEncoder().encode(data));//把文件转换为64编码格式
+            }
+            catch (Exception e){
+                return "0";
+            }
+        } else {
+            return "0";
+        }
+    }
+
 }

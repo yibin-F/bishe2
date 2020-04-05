@@ -26,4 +26,17 @@
     <select id="find_usermajor" parameterType="java.lang.Integer" resultType="java.lang.String">
         select major_name from major where major_id=#{major_id}
     </select>
+    <!--查找文章的用户名-->
+    <select id="find_stuname" parameterType="java.lang.Integer" resultType="java.lang.String">
+        select user_name from student where u_id=#{uid}
+    </select>
+    <select id="find_teaname" parameterType="java.lang.Integer" resultType="java.lang.String">
+        select user_name from teacher where u_id=#{uid}
+    </select>
+    <select id="find_parname" parameterType="java.lang.Integer" resultType="java.lang.String">
+        select user_name from parent where u_id=#{uid}
+    </select>
+    <select id="find_comname" parameterType="java.lang.Integer" resultType="java.lang.String">
+        select user_name from company where u_id=#{uid}
+    </select>
 </mapper>
