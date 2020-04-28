@@ -29,36 +29,30 @@ var adminIndexJs = {
                 });
             });
         },
-        userList: function () {
+        studentList: function () {
             layui.use('table', function () {
                 var table = layui.table;
-                $("#user-list").removeClass('layui-hide');
+                $("#student-list").removeClass('layui-hide');
+                $("#parent-list").addClass('layui-hide');
+                $("#company-list").addClass('layui-hide');
+                $("#teacher-list").addClass('layui-hide');
                 $("#admin-list").addClass('layui-hide');
                 $("#order-list").addClass('layui-hide');
                 //第一个实例
                 table.render({
                     elem: '#user-list-table'
                     , height: 485
-                    , url: '/admin/user-list'
-                    , page: true //开启order-list分页
-                    , limits: [5, 10, 20]
+                    , url: '/student/list'
+                    , page: true
                     , limit: 10
                     , cols: [[ //表头
-                        {field: 'id', title: 'ID', width: 70, sort: true, fixed: 'left'}
-                        , {field: 'mobile', title: '手机', width: 120}
-                        , {field: 'account_name', title: '用户名', width: 100}
-                        , {field: 'real_name', title: '姓名', width: 100}
-                        , {field: 'city', title: '城市', width: 100}
-                        , {field: 'email', title: '邮箱', width: 160}
-                        , {field: 'company', title: '单位', width: 190}
-                        , {field: 'career', title: '职业', width: 110}
-                        , {
-                            field: 'portrait', title: '头像', width: 100, templet: function (d) {
-                                return '<div onclick="adminIndexJs.method.show_img(this)" ><img src="' + d.portrait + '" alt="" width="50px" height="50px"></a></div>';
-                            }
-                        }
-                        , {field: 'create_time', title: '创建时间', width: 180, templet:'<div>{{ layui.util.toDateString(d.create_time, "yyyy-MM-dd HH:mm:ss") }}</div>', sort: true}
-                        , {field: 'update_time', title: '更新时间', width: 180, templet:'<div>{{ layui.util.toDateString(d.update_time, "yyyy-MM-dd HH:mm:ss") }}</div>', sort: true}
+                        {field: 'u_id', title: 'ID', width: 70, sort: true, fixed: 'left'}
+                        , {field: 'user_id', title: '学号', width: 120}
+                        , {field: 'user_name', title: '用户名', width: 100}
+                        , {field: 'user_sex', title: '性别', width: 80}
+                        , {field: 'user_phone', title: '手机', width: 150}
+                        , {field: 'user_email', title: '邮箱', width: 160}
+                        , {field: 'adress', title: '地址', width: 150}
                         , {
                             field: 'operate',
                             title: '操作',
@@ -131,7 +125,298 @@ var adminIndexJs = {
                     }
                 })
             });
+        },
+        teacherList: function () {
+            layui.use('table', function () {
+                var table = layui.table;
+                $("#teacher-list").removeClass('layui-hide');
+                $("#student-list").addClass('layui-hide');
+                $("#parent-list").addClass('layui-hide');
+                $("#company-list").addClass('layui-hide');
+                $("#admin-list").addClass('layui-hide');
+                $("#order-list").addClass('layui-hide');
+                //第一个实例
+                table.render({
+                    elem: '#teacher-list-table'
+                    , height: 485
+                    , url: '/teacher/list'
+                    , page: true
+                    , limit: 10
+                    , cols: [[ //表头
+                        {field: 'u_id', title: 'ID', width: 70, sort: true, fixed: 'left'}
+                        , {field: 'user_id', title: '学号', width: 120}
+                        , {field: 'user_name', title: '用户名', width: 100}
+                        , {field: 'user_sex', title: '性别', width: 80}
+                        , {field: 'user_phone', title: '手机', width: 150}
+                        , {field: 'user_email', title: '邮箱', width: 160}
+                        , {field: 'adress', title: '地址', width: 150}
+                        , {
+                            field: 'operate',
+                            title: '操作',
+                            width: 147,
+                            fixed: 'right',
+                            toolbar: "#teacher-list-table-operate"
+                        }
+                    ]]
+                });
+                table.on('tool(user-list-table-fit)', function (obj) {
+                    if (obj.event === 'del') {
+                        layer.confirm('确定删除该用户？', function (index) {
+                            $.ajax({
+                                url: '/admin/user-delete',
+                                data: {
+                                    mobile: obj.data.mobile
+                                },
+                                type: 'get',
+                                success: function (result) {
+                                    if (result.code == 0) {
+                                        layer.msg("删除成功");
+                                        adminIndexJs.event.userList();
+                                    }
+                                },
+                                error: function () {
+                                    layer.msg("数据请求异常");
+                                }
+                            })
+                        })
+                    } else {
+                        $.ajax({
+                            url: '/admin/user-get',
+                            data: {
+                                mobile: obj.data.mobile
+                            },
+                            type: 'get',
+                            success: function (result) {
+                                $("#edit-mobile").val(result.vo.mobile);
+                                $("#edit-account-name").val(result.vo.account_name);
+                                $("#edit-career").val(result.vo.career);
+                                $("#edit-city").val(result.vo.city);
+                                $("#edit-company").val(result.vo.company);
+                                $("#edit-email").val(result.vo.email);
+                                $("#edit-real-name").val(result.vo.real_name);
+                                $("#edit-portrait-img").attr('src', result.vo.portrait);
+                                layui.use(['layer', 'form'], function (layer, form) {
+                                    layer.open({
+                                        type: 1
+                                        , skin: 'examine-refuse-popup'
+                                        , offset: 'auto'
+                                        , title: '编辑用户'
+                                        , id: 'layer-id'
+                                        , area: ['600px', '700px']
+                                        , content: $("#dialog-edit-user-info")
+                                        , btn: ['确定', '取消']
+                                        , shade: 0.5 //不显示遮罩
+                                        , end: function () {
+                                            $("#dialog-edit-user-info").css("display", "none");
+                                        }
+                                        , yes: function () {
+                                            adminIndexJs.method.updateUserBtn();
+                                        },
+                                        btn2: function () {
+
+                                        }
+                                    });
+                                });
+                            }
+                        })
+                    }
+                })
+            });
+        },
+        parentList: function () {
+            layui.use('table', function () {
+                var table = layui.table;
+                $("#parent-list").removeClass('layui-hide');
+                $("#student-list").addClass('layui-hide');
+                $("#company-list").addClass('layui-hide');
+                $("#teacher-list").addClass('layui-hide');
+                $("#admin-list").addClass('layui-hide');
+                $("#order-list").addClass('layui-hide');
+                //第一个实例
+                table.render({
+                    elem: '#parent-list-table'
+                    , height: 485
+                    , url: '/parent/list'
+                    , page: true
+                    , limit: 10
+                    , cols: [[ //表头
+                        {field: 'u_id', title: 'ID', width: 70, sort: true, fixed: 'left'}
+                        , {field: 'user_id', title: '学号', width: 120}
+                        , {field: 'user_name', title: '用户名', width: 100}
+                        , {field: 'user_sex', title: '性别', width: 80}
+                        , {field: 'user_phone', title: '手机', width: 150}
+                        , {field: 'user_email', title: '邮箱', width: 160}
+                        , {field: 'adress', title: '地址', width: 150}
+                        , {
+                            field: 'operate',
+                            title: '操作',
+                            width: 147,
+                            fixed: 'right',
+                            toolbar: "#parent-list-table-operate"
+                        }
+                    ]]
+                });
+                table.on('tool(user-list-table-fit)', function (obj) {
+                    if (obj.event === 'del') {
+                        layer.confirm('确定删除该用户？', function (index) {
+                            $.ajax({
+                                url: '/admin/user-delete',
+                                data: {
+                                    mobile: obj.data.mobile
+                                },
+                                type: 'get',
+                                success: function (result) {
+                                    if (result.code == 0) {
+                                        layer.msg("删除成功");
+                                        adminIndexJs.event.parentList();
+                                    }
+                                },
+                                error: function () {
+                                    layer.msg("数据请求异常");
+                                }
+                            })
+                        })
+                    } else {
+                        $.ajax({
+                            url: '/admin/user-get',
+                            data: {
+                                mobile: obj.data.mobile
+                            },
+                            type: 'get',
+                            success: function (result) {
+                                $("#edit-mobile").val(result.vo.mobile);
+                                $("#edit-account-name").val(result.vo.account_name);
+                                $("#edit-career").val(result.vo.career);
+                                $("#edit-city").val(result.vo.city);
+                                $("#edit-company").val(result.vo.company);
+                                $("#edit-email").val(result.vo.email);
+                                $("#edit-real-name").val(result.vo.real_name);
+                                $("#edit-portrait-img").attr('src', result.vo.portrait);
+                                layui.use(['layer', 'form'], function (layer, form) {
+                                    layer.open({
+                                        type: 1
+                                        , skin: 'examine-refuse-popup'
+                                        , offset: 'auto'
+                                        , title: '编辑用户'
+                                        , id: 'layer-id'
+                                        , area: ['600px', '700px']
+                                        , content: $("#dialog-edit-user-info")
+                                        , btn: ['确定', '取消']
+                                        , shade: 0.5 //不显示遮罩
+                                        , end: function () {
+                                            $("#dialog-edit-user-info").css("display", "none");
+                                        }
+                                        , yes: function () {
+                                            adminIndexJs.method.updateUserBtn();
+                                        },
+                                        btn2: function () {
+
+                                        }
+                                    });
+                                });
+                            }
+                        })
+                    }
+                })
+            });
+        },
+        companyList: function () {
+            layui.use('table', function () {
+                var table = layui.table;
+                $("#company-list").removeClass('layui-hide');
+                $("#student-list").addClass('layui-hide');
+                $("#parent-list").addClass('layui-hide');
+                $("#teacher-list").addClass('layui-hide');
+                $("#admin-list").addClass('layui-hide');
+                $("#order-list").addClass('layui-hide');
+                //第一个实例
+                table.render({
+                    elem: '#company-list-table'
+                    , height: 485
+                    , url: '/company/list'
+                    , page: true
+                    , limit: 10
+                    , cols: [[ //表头
+                        {field: 'u_id', title: 'ID', width: 70, sort: true, fixed: 'left'}
+                        , {field: 'user_id', title: '学号', width: 120}
+                        , {field: 'user_name', title: '用户名', width: 100}
+                        , {field: 'user_phone', title: '手机', width: 150}
+                        , {field: 'user_email', title: '邮箱', width: 160}
+                        , {field: 'adress', title: '地址', width: 150}
+                        , {
+                            field: 'operate',
+                            title: '操作',
+                            width: 147,
+                            fixed: 'right',
+                            toolbar: "#company-list-table-operate"
+                        }
+                    ]]
+                });
+                table.on('tool(user-list-table-fit)', function (obj) {
+                    if (obj.event === 'del') {
+                        layer.confirm('确定删除该用户？', function (index) {
+                            $.ajax({
+                                url: '/admin/user-delete',
+                                data: {
+                                    mobile: obj.data.mobile
+                                },
+                                type: 'get',
+                                success: function (result) {
+                                    if (result.code == 0) {
+                                        layer.msg("删除成功");
+                                        adminIndexJs.event.userList();
+                                    }
+                                },
+                                error: function () {
+                                    layer.msg("数据请求异常");
+                                }
+                            })
+                        })
+                    } else {
+                        $.ajax({
+                            url: '/admin/user-get',
+                            data: {
+                                mobile: obj.data.mobile
+                            },
+                            type: 'get',
+                            success: function (result) {
+                                $("#edit-mobile").val(result.vo.mobile);
+                                $("#edit-account-name").val(result.vo.account_name);
+                                $("#edit-career").val(result.vo.career);
+                                $("#edit-city").val(result.vo.city);
+                                $("#edit-company").val(result.vo.company);
+                                $("#edit-email").val(result.vo.email);
+                                $("#edit-real-name").val(result.vo.real_name);
+                                $("#edit-portrait-img").attr('src', result.vo.portrait);
+                                layui.use(['layer', 'form'], function (layer, form) {
+                                    layer.open({
+                                        type: 1
+                                        , skin: 'examine-refuse-popup'
+                                        , offset: 'auto'
+                                        , title: '编辑用户'
+                                        , id: 'layer-id'
+                                        , area: ['600px', '700px']
+                                        , content: $("#dialog-edit-user-info")
+                                        , btn: ['确定', '取消']
+                                        , shade: 0.5 //不显示遮罩
+                                        , end: function () {
+                                            $("#dialog-edit-user-info").css("display", "none");
+                                        }
+                                        , yes: function () {
+                                            adminIndexJs.method.updateUserBtn();
+                                        },
+                                        btn2: function () {
+
+                                        }
+                                    });
+                                });
+                            }
+                        })
+                    }
+                })
+            });
         }
+
     },
     method: {
         updateUserBtn: function () {
@@ -162,9 +447,9 @@ var adminIndexJs = {
         },
         userSearch: function () {
             var data = {};
-            data.mobile = $("#search-mobile").val();
-            data.company = $("#search-company").val();
-            data.account_name = $("#search-account-name").val();
+            data.uid = $("#search-uid").val();
+            // data.company = $("#search-company").val();
+            data.username = $("#search-username").val();
             layui.use('table', function () {
                 var table = layui.table;
                 //第一个实例
@@ -172,9 +457,9 @@ var adminIndexJs = {
                     elem: '#user-list-table'
                     , height: 485
                     , where: {
-                        mobile: $("#search-mobile").val(),
-                        company: $("#search-company").val(),
-                        account_name: $("#search-account-name").val()
+                        mobile: $("#search-uid").val(),
+                        // company: $("#search-company").val(),
+                        username: $("#search-username").val()
                     }
                     , method: 'post'
                     , contentType: 'application/json'
@@ -350,13 +635,16 @@ var adminIndexJs = {
             layui.use('layer', function (layer) {
                 layer.open({
                     type: 1,
-                    title: '添加管理员',
+                    title: '添加学生',
                     shift: 7,
                     area: 'auto',
                     maxWidth: 1000,
                     maxHeight: 800,
                     shadeClose: true,
-                    content: $("#add-admin-panel")
+                    content: $("#add-admin-panel"),
+                    end: function () {
+                        $("#add-admin-panel").css("display", "none");
+                    }
                 });
             });
         },

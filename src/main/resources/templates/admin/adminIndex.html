@@ -45,10 +45,10 @@
                 <li class="layui-nav-item layui-nav-itemed">
                     <a class="" href="javascript:;">用户服务</a>
                     <dl class="layui-nav-child">
-                        <dd class="layui-this"><a onclick="adminIndexJs.event.userList();">学生用户列表</a></dd>
-                        <dd><a onclick="adminIndexJs.event.userList();">教师用户列表</a></dd>
-                        <dd><a onclick="adminIndexJs.event.userList();">家长用户列表</a></dd>
-                        <dd><a onclick="adminIndexJs.event.userList();">企业用户列表</a></dd>
+                        <dd class="layui-this"><a onclick="adminIndexJs.event.studentList();">学生用户列表</a></dd>
+                        <dd><a onclick="adminIndexJs.event.teacherList();">教师用户列表</a></dd>
+                        <dd><a onclick="adminIndexJs.event.parentList();">家长用户列表</a></dd>
+                        <dd><a onclick="adminIndexJs.event.companyList();">企业用户列表</a></dd>
                         <!--<dd><a onclick="adminIndexJs.method.orderList();">所有订单</a></dd>-->
                         <!--<dd><a href="javascript:;">用户反馈</a></dd>-->
                     </dl>
@@ -67,22 +67,23 @@
     </div>
     //內容部分
     <div class="layui-body">
-        <!-- 用户列表 -->
-        <div class="layui-hide" style="padding: 15px;" id="user-list">
+        <!-- 学生列表 -->
+        <div class="layui-hide" style="padding: 15px;" id="student-list">
             <div class="layui-form">
-                手机号
+                学号
                 <div class="layui-inline">
-                    <input class="layui-input" id="search-mobile" autocomplete="off">
+                    <input class="layui-input" id="search-uid" autocomplete="off">
                 </div>
-                单位
-                <div class="layui-inline">
-                    <input class="layui-input" id="search-company" autocomplete="off">
-                </div>
+                <!--单位-->
+                <!--<div class="layui-inline">-->
+                    <!--<input class="layui-input" id="search-company" autocomplete="off">-->
+                <!--</div>-->
                 用户名
                 <div class="layui-inline">
-                    <input class="layui-input" id="search-account-name" autocomplete="off">
+                    <input class="layui-input" id="search-name" autocomplete="off">
                 </div>
                 <button class="layui-btn" data-type="reload" onclick="adminIndexJs.method.userSearch();">搜索</button>
+                <button class="layui-btn" data-type="reload" onclick="adminIndexJs.method.addAdmin();">添加用戶</button>
             </div>
             <table id="user-list-table" lay-filter="user-list-table-fit"></table>
             <script type="text/html" id="user-list-table-operate">
@@ -94,6 +95,91 @@
                 </div>
             </script>
         </div>
+        <!--教师列表-->
+        <div class="layui-hide" style="padding: 15px;" id="teacher-list">
+            <div class="layui-form">
+                学号
+                <div class="layui-inline">
+                    <input class="layui-input" id="search-tea-uid" autocomplete="off">
+                </div>
+                <!--单位-->
+                <!--<div class="layui-inline">-->
+                <!--<input class="layui-input" id="search-company" autocomplete="off">-->
+                <!--</div>-->
+                用户名
+                <div class="layui-inline">
+                    <input class="layui-input" id="search-tea-name" autocomplete="off">
+                </div>
+                <button class="layui-btn" data-type="reload" onclick="adminIndexJs.method.userSearch();">搜索</button>
+                <button class="layui-btn" data-type="reload" onclick="adminIndexJs.method.addAdmin();">添加用戶</button>
+            </div>
+            <table id="teacher-list-table" lay-filter="user-list-table-fit"></table>
+            <script type="text/html" id="teacher-list-table-operate">
+                <div class="layui-inline">
+                    <a class="layui-btn layui-btn-sm layui-btn-normal" lay-event="edit">编辑</a>
+                </div>
+                <div class="layui-inline">
+                    <a class="layui-btn layui-btn-sm layui-btn-danger" lay-event="del">删除</a>
+                </div>
+            </script>
+        </div>
+        <!--家长列表-->
+        <div class="layui-hide" style="padding: 15px;" id="parent-list">
+            <div class="layui-form">
+                学号
+                <div class="layui-inline">
+                    <input class="layui-input" id="search-parent-uid" autocomplete="off">
+                </div>
+                <!--单位-->
+                <!--<div class="layui-inline">-->
+                <!--<input class="layui-input" id="search-company" autocomplete="off">-->
+                <!--</div>-->
+                用户名
+                <div class="layui-inline">
+                    <input class="layui-input" id="search-parent-name" autocomplete="off">
+                </div>
+                <button class="layui-btn" data-type="reload" onclick="adminIndexJs.method.userSearch();">搜索</button>
+                <button class="layui-btn" data-type="reload" onclick="adminIndexJs.method.addAdmin();">添加用戶</button>
+            </div>
+            <table id="parent-list-table" lay-filter="user-list-table-fit"></table>
+            <script type="text/html" id="parent-list-table-operate">
+                <div class="layui-inline">
+                    <a class="layui-btn layui-btn-sm layui-btn-normal" lay-event="edit">编辑</a>
+                </div>
+                <div class="layui-inline">
+                    <a class="layui-btn layui-btn-sm layui-btn-danger" lay-event="del">删除</a>
+                </div>
+            </script>
+        </div>
+        <!--企业列表-->
+        <div class="layui-hide" style="padding: 15px;" id="company-list">
+            <div class="layui-form">
+                学号
+                <div class="layui-inline">
+                    <input class="layui-input" id="search-company-uid" autocomplete="off">
+                </div>
+                <!--单位-->
+                <!--<div class="layui-inline">-->
+                <!--<input class="layui-input" id="search-company" autocomplete="off">-->
+                <!--</div>-->
+                用户名
+                <div class="layui-inline">
+                    <input class="layui-input" id="search-company-name" autocomplete="off">
+                </div>
+                <button class="layui-btn" data-type="reload" onclick="adminIndexJs.method.userSearch();">搜索</button>
+                <button class="layui-btn" data-type="reload" onclick="adminIndexJs.method.addAdmin();">添加用戶</button>
+            </div>
+            <table id="company-list-table" lay-filter="user-list-table-fit"></table>
+            <script type="text/html" id="company-list-table-operate">
+                <div class="layui-inline">
+                    <a class="layui-btn layui-btn-sm layui-btn-normal" lay-event="edit">编辑</a>
+                </div>
+                <div class="layui-inline">
+                    <a class="layui-btn layui-btn-sm layui-btn-danger" lay-event="del">删除</a>
+                </div>
+            </script>
+        </div>
+
         <!-- 订单列表 -->
         <div class="layui-hide" style="padding: 15px;" id="order-list">
             <table id="order-list-table" lay-filter="user1"></table>
@@ -148,10 +234,9 @@
 <div id="add-admin-panel" style="display: none;">
     <div class='layui-form'>
         <div class="layui-form-item">
-            <label class="layui-form-label">手
-                机号</label>
+            <label class="layui-form-label">学号</label>
             <div class="layui-input-inline">
-                <input type="phone" id="add-admin-mobile" required lay-verify="required" placeholder="请输入手机号"
+                <input type="phone" id="add-admin-mobile" required lay-verify="required" placeholder="请输入学号"
                        autocomplete="off" class="layui-input">
             </div>
             <div class="layui-form-mid layui-word-aux">必填</div>
@@ -159,7 +244,7 @@
         <div class="layui-form-item">
             <label class="layui-form-label">密码</label>
             <div class="layui-input-inline">
-                <input type="" id="add-admin-password" required lay-verify="required" placeholder="请输入手密码"
+                <input type="" id="add-admin-password" required lay-verify="required" placeholder="请输入密码"
                        autocomplete="off" class="layui-input">
             </div>
         </div>
@@ -175,9 +260,10 @@
             <div class="layui-input-inline">
                 <select id="add-admin-role" lay-verify="required" autocomplete="off">
                     <option value="0">请选择</option>
-                    <option value="1">超级管理员</option>
-                    <option value="2">中级管理员</option>
-                    <option value="3">低级管理员</option>
+                    <option value="1">学生</option>
+                    <option value="2">教师</option>
+                    <option value="3">家长</option>
+                    <option value="3">企业</option>
                 </select>
             </div>
         </div>

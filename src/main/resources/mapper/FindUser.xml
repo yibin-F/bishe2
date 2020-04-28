@@ -39,4 +39,18 @@
     <select id="find_comname" parameterType="java.lang.Integer" resultType="java.lang.String">
         select user_name from company where u_id=#{uid}
     </select>
+
+    <!--后台-->
+    <select id="studentlist" parameterType="java.util.Map" resultType="com.bishe2.bishe2.pojo.Student">
+            select * from student limit #{limits},#{pages}
+    </select>
+    <select id="teacherlist" parameterType="java.util.Map" resultType="com.bishe2.bishe2.pojo.Teacher">
+            select * from teacher limit #{limits},#{pages}
+    </select>
+    <select id="parentlist" parameterType="java.util.Map" resultType="com.bishe2.bishe2.pojo.Parent">
+            select * from parent limit #{limits},#{pages}
+    </select>
+    <select id="companylist" parameterType="java.util.Map" resultType="com.bishe2.bishe2.pojo.Company">
+            select * from company limit #{limits},#{pages}
+    </select>
 </mapper>

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.bishe2.bishe2.mapper.MsgMapper">
+    <!--联系人列表-->
+    <select id="find_Msguser" parameterType="java.util.Map" resultType="com.bishe2.bishe2.pojo.Msg">
+        select r.*FROM(
+        select* from msg where to_id=#{user_id} and to_type=#{user_type} ORDER BY msg_time DESC LIMIT 0,1000)r
+        GROUP BY r.from_id
+        ORDER BY r.msg_time DESC;
+    </select>
+    <!--消息列表-->
+    <select id="find_Msgcontent" parameterType="java.util.Map" resultType="com.bishe2.bishe2.pojo.Msg">
+        select*from msg where from_id=#{from_id} and from_type=#{from_type} and to_id=#{to_id} and to_type=#{to_type}
+        or from_id=#{to_id} and #{to_type} and to_id=#{from_id}  and to_type=#{from_type} ORDER BY msg_time
+    </select>
+    <!--发送消息-->
+    <insert id="add_msg" parameterType="java.util.Map">
+         insert into msg set from_id = #{from_id} , from_type = #{from_type} , to_id = #{to_id},to_type=#{to_type},
+         msg_content=#{msg_content},msg_time=#{msg_time}
+    </insert>
+</mapper>

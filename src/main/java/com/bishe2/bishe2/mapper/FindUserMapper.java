@@ -1,8 +1,6 @@
 package com.bishe2.bishe2.mapper;
 
-import com.bishe2.bishe2.pojo.Chengji;
-import com.bishe2.bishe2.pojo.Company;
-import com.bishe2.bishe2.pojo.Teacher;
+import com.bishe2.bishe2.pojo.*;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
@@ -23,5 +21,12 @@ public interface FindUserMapper {
     String find_teaname(int uid);
     String find_parname(int uid);
     String find_comname(int uid);
+    //后台
+    List<Student> studentlist(Map<String, Object> map1);
 
+    List<Teacher> teacherlist(Map<String, Object> map);
+
+    List<Parent> parentlist(Map<String, Object> map);
+
+    List<Company> companylist(Map<String, Object> map);
 }

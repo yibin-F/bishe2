@@ -2,13 +2,11 @@ package com.bishe2.bishe2.service;
 
 import com.bishe2.bishe2.mapper.FindUserMapper;
 import com.bishe2.bishe2.mapper.LoginMapper;
-import com.bishe2.bishe2.pojo.Chengji;
-import com.bishe2.bishe2.pojo.Company;
-import com.bishe2.bishe2.pojo.Student;
-import com.bishe2.bishe2.pojo.Teacher;
+import com.bishe2.bishe2.pojo.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.security.PublicKey;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -50,5 +48,38 @@ public class FindUserService {
             }
         }
         return chengjiList;
+    }
+    //后台
+    //获取学生用户信息
+    public List<Student> StudentList(int limit,int page){
+        Map<String,Object> map = new HashMap<>();
+        map.put("limits",limit);
+        map.put("pages",page);
+        List<Student> studentList = findUserMapper.studentlist(map);
+        return studentList;
+    }
+    //获取教师用户信息
+    public List<Teacher> TeacherList(int a, int b) {
+        Map<String,Object> map = new HashMap<>();
+        map.put("limits",a);
+        map.put("pages",b);
+        List<Teacher> teacherList = findUserMapper.teacherlist(map);
+        return teacherList;
+    }
+    //获取家长用户信息
+    public List<Parent> ParentList(int a, int b) {
+        Map<String,Object> map = new HashMap<>();
+        map.put("limits",a);
+        map.put("pages",b);
+        List<Parent> parentList = findUserMapper.parentlist(map);
+        return parentList;
+    }
+    //获取企业用户信息
+    public List<Company> CompanyList(int a, int b) {
+        Map<String,Object> map = new HashMap<>();
+        map.put("limits",a);
+        map.put("pages",b);
+        List<Company> companyList = findUserMapper.companylist(map);
+        return companyList;
     }
 }
